@@ -1,16 +1,31 @@
-from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageDraw
+import pathlib
+ROOT = pathlib.Path(".")
 
-# this preview.py only checks covers are not black and not QR composite
-for name in ["og-cover.png", "OMQpreview.png"]:
-    p = Path(name)
-    if not p.exists():
-        print(f"missing {name}")
-        continue
-    im = Image.open(p)
-    print(f"{name}: {p.stat().st_size//1024}K {im.size}")
-    # if 55K black, warn
-    if p.stat().st_size < 100*1024:
-        print(f"WARNING {name} still black 55K, replace with new image")
+def make_light():
+    img = Image.new("RGB", (1200, 1600), "#f5f3ef")
+    d = ImageDraw.Draw(img)
+    # infinity eye - gold lines
+    # center eye
+    d.ellipse([450, 600, 750, 800], outline="#b89b5a", width=3)
+    d.ellipse([560, 670, 640, 730], fill="#b89b5a")
+    # infinity loops
+    d.arc([200, 600, 600, 800], 0, 360, fill="#b89b5a", width=2)
+    d.arc([600, 600, 1000, 800], 0, 360, fill="#b89b5a", width=2)
+    d.text((560, 1400), "OMQ", fill="#b89b5a")
+    img.save(ROOT/"og-cover.png")
 
-print("preview.py done - covers should be visible eye, no QR")
+def make_dark():
+    img = Image.new("RGB", (1200, 1600), "#0a0a0a")
+    d = ImageDraw.Draw(img)
+    d.ellipse([450, 600, 750, 800], outline="#e5d5a0", width=3)
+    d.ellipse([560, 670, 640, 730], fill="#e5d5a0")
+    d.arc([200, 600, 600, 800], 0, 360, fill="#e5d5a0", width=2)
+    d.arc([600, 600, 1000, 800], 0, 360, fill="#e5d5a0", width=2)
+    d.text((560, 1400), "OMQ", fill="#e5d5a0")
+    img.save(ROOT/"OMQpreview.png")
+    img.save(ROOT/"OMQpreview.jpg", quality=92)
+
+make_light()
+make_dark()
+print("generated og-cover.png + OMQpreview.png - visible eye, no QR")
