@@ -1,1 +1,43 @@
-... paste above ...
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OMQ - Drafts</title>
+<meta property="og:image" content="og-cover.png">
+<style>
+body{background:#0a0a0a;color:#e5e5e5;font-family:system-ui;margin:0;padding:24px}
+a{color:#7dd3fc;text-decoration:none}
+.card{max-width:900px;margin:auto}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+img{width:100%;border-radius:12px;border:1px solid #222}
+.item{background:#111;border:1px solid #222;border-radius:12px;padding:16px}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>OMQ — Draft Pages</h1>
+<div class="grid">
+<div class="item"><img src="og-cover.png"><p>og-cover — Light (no QR)</p></div>
+<div class="item"><img src="OMQpreview.png"><p>OMQpreview — Dark (visible eye)</p></div>
+</div>
+<h2 style="margin-top:32px">Drafts</h2>
+<ul id="draft-list"></ul>
+</div>
+<script>
+fetch('./drafts/').then(r=>r.text()).then(t=>{
+  const list=document.getElementById('draft-list');
+  const files=[...t.matchAll(/href="([^"]+\.html)"/g)].map(m=>m[1]);
+  files.forEach(f=>{
+    if(f==='index.html') return;
+    const li=document.createElement('li');
+    li.innerHTML=`<a href="./drafts/${f}">${f}</a>`;
+    list.appendChild(li);
+  });
+}).catch(()=>{
+  // fallback if auto-list fails
+  document.getElementById('draft-list').innerHTML='<li><a href="./drafts/">Open drafts folder</a></li>';
+});
+</script>
+</body>
+</html>
