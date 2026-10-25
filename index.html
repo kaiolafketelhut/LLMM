@@ -20,7 +20,14 @@ code{background:#eee;padding:2px 5px;font-family:monospace;font-size:13px;word-b
 .pay{display:block;text-align:center;padding:1rem;border:2px solid #000;font-weight:bold;margin:1.5rem 0;text-decoration:none;background:#fff}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 @media(max-width:600px){.grid{grid-template-columns:1fr}}
-</style></head><body>
+</style>
+<style>
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.v86-cursor{animation:blink 1s step-start infinite; background:#00ff00; width:8px; height:14px; display:inline-block}
+canvas:focus{outline:2px solid #00ff00}
+.linux-terminal-box{cursor:text}
+</style>
+</head><body>
 
 <!-- [GOOGLE SEARCH BAR BOX] by book -->
 <div class="box" style="background:#fff;text-align:center;border:2px solid #000">
@@ -53,7 +60,7 @@ Payment: <a href="https://bunq.me/fieldberry">bunq.me/fieldberry</a></div>
 
 <!-- [OLD MIRROR COMPLETE -> NEW] -->
 <div class="box"><b>Linux Terminal (kernel <span id="kv">?</span>, in your browser)</b><br>
-<canvas id="omq" width="1200" height="630" style="width:100%;max-width:600px;background:#14181f"></canvas>
+<canvas tabindex="0" id="screen_container" id="omq" width="1200" height="630" style="width:100%;max-width:600px;background:#14181f"></canvas>
 <textarea id="ser" rows="14" spellcheck="false" style="display:none;width:100%;box-sizing:border-box;font:12px monospace;background:#000;color:#0f0"></textarea><br>
 <button id="omqgo" style="padding:8px 14px">Boot Linux</button>
 <div id="omqmsg" style="font-size:12px"></div></div>
