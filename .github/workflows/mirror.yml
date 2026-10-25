@@ -1,0 +1,13 @@
+name: mirror-to-demo-repository
+on:
+  push:
+    branches: [main]
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Push to demo-repository
+        run: git push --force "https://x-access-token:${{ secrets.DEMO_PAT }}@github.com/Colegio-San-Caio/demo-repository.git" HEAD:refs/heads/index-html-mirror
