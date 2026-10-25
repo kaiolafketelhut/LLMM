@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -e
+[ -f "./css.iqxd" ] && source ./css.iqxd
+
+echo -e "${OQM_PRIMARY}Initializing Main iQxD Runtime...${OQM_RESET}"
+
+if [ -f "./dist/D16S" ]; then
+    echo -e "${OQM_SUCCESS}Launching D16S Core Runtime...${OQM_RESET}"
+    exec ./dist/D16S
+else
+    echo -e "${OQM_WARN}Core runtime binary dist/D16S not found.${OQM_RESET}"
+    exit 1
+fi

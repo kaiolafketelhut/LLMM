@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+[ -f "./css.iqxd" ] && source ./css.iqxd
+
+echo -e "${OQM_SUCCESS}(=^ω^=) 00x00 D16S Core Runtime Active${OQM_RESET}"
+echo -e "${OQM_PRIMARY}(=^ ◡ ^=) Operational state nominal. System ready.${OQM_RESET}"

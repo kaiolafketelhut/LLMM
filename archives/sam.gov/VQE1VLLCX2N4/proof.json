@@ -1,0 +1,12 @@
+{
+  "uei": "VQE1VLLCX2N4",
+  "url": "https://sam.gov/workspace/em/entity-registration/VQE1VLLCX2N4/submitsuccess",
+  "status": "Entity Registration Submitted",
+  "verified": "2026-10-14T23:28:29Z",
+  "http": "200",
+  "bytes": 43511,
+  "etag": "6ac58f9e-a9f7",
+  "tls": "DigiCert EV RSA CA G2 - sam.gov verified",
+  "sha256": "0653a5f41b6284c6efd8b5fab3bf04222027150461f9007239274ab00a6ccdd",
+  "archive": "Colegio-San-Caio/demo-repository"
+}

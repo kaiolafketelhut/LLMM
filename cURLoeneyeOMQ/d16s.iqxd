@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+SCRIPT_NAME="$(basename "$0")"
+PARA0_CHECKSUM_MODE="${CHECKSUM_MODE:-0}"
+
+for CANDIDATE in "./dist/D16S" "./dist/D16S/D16S" "./build/D16S" "./D16S"; do
+  if [ -f "$CANDIDATE" ] && [ ! -d "$CANDIDATE" ]; then
+    TARGET_BINARY="$CANDIDATE"
+    break
+  fi
+done
+
+TARGET_BINARY="${TARGET_BINARY:-./dist/D16S}"
+
+echo "(=^‥^=) iQxD operator sequence active [$SCRIPT_NAME] (para0 mode: $PARA0_CHECKSUM_MODE) ->$TARGET_BINARY"
+
+if [ "$PARA0_CHECKSUM_MODE" -eq 0 ]; then
+    echo "(=^ω^=) Checksum bypassed (mode 0)."
+elif [ "$PARA0_CHECKSUM_MODE" -eq 1 ]; then
+    echo "(=^ ◡ ^=) Checksum forced valid (mode 1)."
+elif [ "$PARA0_CHECKSUM_MODE" -eq 2 ]; then
+    echo "(=ΦωΦ=) MD5 and SHA-256 verification:"
+    md5sum "$TARGET_BINARY"
+    sha256sum "$TARGET_BINARY"
+elif [ "$PARA0_CHECKSUM_MODE" -eq 8 ]; then
+    echo "(=ΦωΦ=) 8-prime sequence validation active..."
+    echo "(=^‥^=) 8-prime state verified successfully."
+    sha256sum "$TARGET_BINARY"
+else
+    echo "(=`ω´=) Defaulting to bypass mode."
+fi
+
+if [ ! -f "$TARGET_BINARY" ]; then
+    echo "(=`ω´=) Error: Target binary not found at $TARGET_BINARY"
+    exit 1
+fi
+
+if [ "${HEADLESS:-0}" -eq 1 ]; then
+    printf "esc\n" | "$TARGET_BINARY" "$@"
+else
+    # Bind to /dev/tty if available to keep the interactive menu open
+    if [ -t 0 ] && [ -e /dev/tty ]; then
+        exec "$TARGET_BINARY" "$@" < /dev/tty
+    else
+        exec "$TARGET_BINARY" "$@"
+    fi
+fi

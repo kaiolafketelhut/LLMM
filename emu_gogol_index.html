@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oeneye Quantum - Unified Dashboard</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #0d1117;
+      color: #c9d1d9;
+      padding: 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1, h2 { color: #58a6ff; }
+    
+    /* Styles from 9Px.html */
+    .google-search-form {
+      display: flex;
+      max-width: 480px;
+      margin: 20px auto;
+    }
+    .google-search-input {
+      flex: 1;
+      padding: 10px 16px;
+      font-size: 15px;
+      border: 1px solid #dfe1e5;
+      border-radius: 24px 0 0 24px;
+      outline: none;
+      background: #161b22;
+      color: #fff;
+    }
+    .google-search-input:focus {
+      border-color: #4285f4;
+      box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+    }
+    .google-search-btn {
+      padding: 10px 20px;
+      font-size: 14px;
+      background-color: #f8f9fa;
+      border: 1px solid #dfe1e5;
+      border-left: none;
+      border-radius: 0 24px 24px 0;
+      cursor: pointer;
+      color: #3c4043;
+    }
+    .google-search-btn:hover {
+      background-color: #f1f3f4;
+      color: #202124;
+    }
+    
+    .panel {
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 24px;
+    }
+    button.action-btn {
+      background-color: #238636;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button.action-btn:hover { background-color: #2ea043; }
+    #status { margin-top: 12px; font-family: monospace; }
+  </style>
+</head>
+<body>
+
+  <h1>Oeneye Control Center</h1>
+
+  <!-- 1. Google Search Bar Form (from 9Px.html) -->
+  <form action="https://www.google.com/search" method="get" target="_blank" class="google-search-form">
+    <input type="hidden" name="as_sitesearch" value="" />
+    <input type="text" name="q" placeholder="Search Google..." required aria-label="Search Google" class="google-search-input" />
+    <button type="submit" class="google-search-btn">Search</button>
+  </form>
+
+  <!-- 2. Google Programmable Search Element (from gogol.r) -->
+  <div class="panel">
+    <h2>Programmable Search</h2>
+    <script async src="https://cse.google.com/cse.js?cx=YOUR_ENGINE_ID"></script>
+    <div class="gcse-search"></div>
+  </div>
+
+  <!-- 3. Launchpad Package Copy Automation (from 9Px.imc) -->
+  <div class="panel">
+    <h2>Launchpad Automation</h2>
+    <p>Trigger `copyPackage` from <code>jammy</code> to <code>noble</code> for <code>ibm-bubble-16k</code>.</p>
+    <button class="action-btn" onclick="triggerPackageCopy()">Copy Package to Noble</button>
+    <div id="status"></div>
+  </div>
+
+  <script>
+    async function triggerPackageCopy() {
+      const statusDiv = document.getElementById('status');
+      statusDiv.style.color = '#e3b341';
+      statusDiv.innerText = 'Communicating with Launchpad...';
+      
+      try {
+        const response = await fetch('/api/copy-package', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            source_name: "ibm-bubble-16k",
+            version: "1.3-2-jammy1",
+            from_ppa: "sandbox-ppa",
+            to_series: "noble"
+          })
+        });
+        const data = await response.json();
+        if (response.ok) {
+          statusDiv.style.color = '#3fb950';
+          statusDiv.innerText = data.message;
+        } else {
+          statusDiv.style.color = '#f85149';
+          statusDiv.innerText = 'Error: ' + data.detail;
+        }
+      } catch (err) {
+        statusDiv.style.color = '#f85149';
+        statusDiv.innerText = 'Failed to connect to backend.';
+      }
+    }
+  </script>
+
+</body>
+</html>
+

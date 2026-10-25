@@ -1,0 +1,23 @@
+=== Global & Fractal Repository Verification (PHI: 1.618034) ===
+
+[-] Fetching oeneyecat.sh...
+    Target Size    : 302 bytes
+    SHA-256        : 918650d08dc76cf9e6c0ac65b75e0bcfdfb094b643147623b8f7eb7c8f109e9e
+    Shannon Entropy: 5.0541 bits/byte
+    Chi-Square     : 3783.8
+    Fractal Metric : 0.6063
+------------------------------------------------------------
+[-] Fetching 86-DOS_0.1_Serial11.img...
+    Target Size    : 256,256 bytes
+    SHA-256        : b13687150bffc1a5f587243f77ca28486961a0a81ec6fbefb57a8a5b126c1c7c
+    Shannon Entropy: 1.2880 bits/byte
+    Chi-Square     : 51151705.2
+    Fractal Metric : 0.0104
+------------------------------------------------------------
+[-] Fetching install.BIN...
+    Target Size    : 1 bytes
+    SHA-256        : 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+    Shannon Entropy: 0.0000 bits/byte
+    Chi-Square     : 255.0
+    Fractal Metric : 0.0000
+------------------------------------------------------------

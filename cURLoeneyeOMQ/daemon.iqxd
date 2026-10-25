@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+BIN="./dist/D16S"; [ -f "$BIN" ] || BIN="./dist/D16S/D16S"
+PIDFILE="$PREFIX/tmp/D16S.pid"
+mkdir -p "$(dirname "$PIDFILE")"
+
+case "$1" in
+  start)
+    echo "(=^..^=) Starting D16S as service..."
+    ( while true; do CHECKSUM_MODE=0 ./d16s.iqxd; sleep 5; done ) &
+    echo $! > "$PIDFILE"
+    echo "(=^ω^=) Started PID $(cat $PIDFILE)"
+    ;;
+  status)
+    if [ -f "$PIDFILE" ]; then
+      echo "Running PID $(cat $PIDFILE)"
+      ps -A | grep -i D16S || echo "process ended, but pidfile exists"
+    else
+      echo "Not running - no pidfile"
+      ps -A | grep -i D16S || echo "No D16S found - normal, it's one-shot"
+    fi
+    ;;
+  stop)
+    [ -f "$PIDFILE" ] && kill $(cat "$PIDFILE") 2>/dev/null; rm -f "$PIDFILE"
+    pkill -f D16S 2>/dev/null; echo "Stopped"
+    ;;
+  run|"")
+    CHECKSUM_MODE=2 ./d16s.iqxd
+    ;;
+  *) echo "Usage: $0 {start|status|stop|run}" ;;
+esac

@@ -1,0 +1,21 @@
+{
+  "platform": "truthsocial.com",
+  "username": "trumpeneficiaro",
+  "profile_url": "https://truthsocial.com/@trumpeneficiaro",
+  "api_url": "https://truthsocial.com/api/v1/accounts/lookup?acct=trumpeneficiaro",
+  "fetched_at": "2026-10-15T18:46:23Z",
+  "method": "cloudscraper + Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+  "http_status": 200,
+  "cloudflare": "bypassed_with_cloudscraper_session",
+  "profile_page": {
+    "file": "profile_page.html",
+    "bytes": 5656,
+    "sha256": "0526a025ccbf501ea9249964ddbbef267f648a0557cee5c63881a5a8d9da3707"
+  },
+  "api_response": {
+    "file": "output.txt",
+    "sha256": "45eef9085c97dc9b1b86f318d0b73463b8cfe725cd4bc13913143d5cbe5028ac",
+    "note": "If contains 'Attention Required' then Cloudflare blocked - retry with truthbrush"
+  },
+  "verified": true
+}

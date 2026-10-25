@@ -1,0 +1,47 @@
+# C/C++ SEED 12783
+c_main
+cpp_main
+*.o
+*.so
+*.elf
+*.bin
+*.log
+*.ima
+*.zip
+mem_upper
+kmain
+loader
+vmm
+pmm
+kernel
+termuxDB
+OQM_file
+OQM_file.bin
+kernel.elf
+
+# Python / env
+qenv/
+__pycache__/
+*.pyc
+
+# GIT leaks / submodules internal
+GIT/
+oeneyeOScat.GIT/
+submodules/GIT/
+.env
+
+# OS
+.DS_Store
+.build/
+*.img
+*.bin
+termuxDB.bin
+libomqqiskit.so
+.env
+*.log
+GIT/
+oeneyeOScat.GIT/
+1422d87
+c56f491
+*.pid
+*.pid

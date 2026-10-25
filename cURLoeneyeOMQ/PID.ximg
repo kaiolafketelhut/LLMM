@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+[ -f "./css.iqxd" ] && source ./css.iqxd
+
+PID_FILE=".daemon.pid"
+XIMG_DB="termuxdb.log"
+
+init_ximg() {
+    if [ -f "$PID_FILE" ]; then
+        CURRENT_PID=$(cat "$PID_FILE")
+        TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+        echo "PID:$CURRENT_PID | TIMESTAMP:$TIMESTAMP | STATUS:ACTIVE" >> "$XIMG_DB"
+        echo -e "${OQM_SUCCESS}(=^ω^=) Recorded PID $CURRENT_PID to $XIMG_DB${OQM_RESET}"
+    else
+        echo -e "${OQM_WARN}(=`ω´=) No active PID file found.${OQM_RESET}"
+    fi
+}
+
+case "$1" in
+    -i) init_ximg ;;
+    *) echo -e "${OQM_PRIMARY}Usage: ./PID.ximg -i${OQM_RESET}" ;;
+esac

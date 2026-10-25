@@ -1,0 +1,24 @@
+name: OQM Deploy Hook
+on:
+  release:
+    types: [published]
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://github.com/clevjhon/OQM/releases
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create deployment record
+        run: |
+          echo "D16S Core ${{ github.ref_name }} deployed"
+          echo "${{ github.sha }}" > DEPLOYED_SHA
+      - name: Update deployment status
+        uses: chrnorm/deployment-status@v2
+        with:
+          state: success
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}

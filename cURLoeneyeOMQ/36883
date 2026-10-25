@@ -1,0 +1,47 @@
+# python3 update_epoch.py
+with open("euler_kike.py", "r") as f:
+    code = f.read()
+
+# Epoch Tensor script function
+epoch_code = """
+def run_epoch_script():
+    g = 1.618034
+    G = 1 / g
+    os.system("clear")
+    print("┌─────────────────────────────────────────────────────────────┐")
+    print("│ SCRIPT:2026:# — Epoch Tensor & Conjugate Inversion Core     │")
+    print("├─────────────────────────────────────────────────────────────┤")
+    print("│ > Epoch Target     : 2026 Active Epoch                      │")
+    print(f"│ > Scaling Base (g) : {g:.6f}                                │")
+    print(f"│ > Inverse Tensor(G): {G:.6f} [1/g Conjugate]                │")
+    print("│ > Absolute Root    : :ROOT: [Port 36883 Loopback Synced]    │")
+    print("│ > System Status    : ISOTROPIC EQUILIBRIUM ACHIEVED [0x00]  │")
+    print("└─────────────────────────────────────────────────────────────┘")
+    input("\\nPress Enter to return to main console...")
+
+"""
+
+# Insert epoch function before main block
+code = code.replace('if __name__ == "__main__":', epoch_code + '\nif __name__ == "__main__":')
+
+# Update main menu display string to include option [7]
+old_menu = '  [1] Launch QEMU     [3] Task Manager     [f] Defragment uni.ima\n  [2] Run Audit       [4] emu_TM_D Suite   [5] OMQ Live Stream\n  [6] KEKI Engine     [ESC] Exit'
+new_menu = '  [1] Launch QEMU     [3] Task Manager     [f] Defragment uni.ima\n  [2] Run Audit       [4] emu_TM_D Suite   [5] OMQ Live Stream\n  [6] KEKI Engine     [7] 2026 Epoch Tensor [ESC] Exit'
+
+code = code.replace(old_menu, new_menu)
+
+# Update choice handler
+old_handler = '''        elif c == "6":
+            run_keki_engine()'''
+new_handler = '''        elif c == "6":
+            run_keki_engine()
+        elif c == "7":
+            run_epoch_script()'''
+
+code = code.replace(old_handler, new_handler)
+
+with open("euler_kike.py", "w") as f:
+    f.write(code)
+
+print("Successfully added SCRIPT:2026:# to euler_kike.py as option [7]!")
+

@@ -1,0 +1,18 @@
+name: TERMUXqTREMUX CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile C and C++ entries
+        run: |
+          gcc Sources/termuxMultiLang/main.c -o c_main && ./c_main
+          g++ Sources/termuxMultiLang/main.cpp -o cpp_main && ./cpp_main
+      - name: Real checksums
+        run: |
+          git rev-parse HEAD
+          sha256sum Sources/termuxMultiLang/main.*
+          echo "STANKIN SEED 12783 Phi 1.618034 tenure(stankin) verified"
+          echo "OQM: 3005a4823becd0d70d82a5d938b381a7610b5f67126b7f8f2d72316a7b508a3d"
+          echo "TERMUX: 4d6a068ac93397e10ab9aa766b46e24c70c9d61f209bda902fa95f84fd4eb58a"

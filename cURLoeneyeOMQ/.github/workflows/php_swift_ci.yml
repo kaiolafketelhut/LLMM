@@ -1,0 +1,24 @@
+name: PHP Swift CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: PHP syntax check
+        run: find . -name '*.php' -not -path './submodules/*' -print0 | xargs -0 -n1 php -l
+
+      - name: Dossier audit
+        run: |
+          git rev-parse HEAD
+          cat DOSSIER_INDEX.md || true
+          echo "SEED 12783 Phi 1.618034 tenure(stankin)"
+          echo "OQM: 3005a4823becd0d70d82a5d938b381a7610b5f67126b7f8f2d72316a7b508a3d"

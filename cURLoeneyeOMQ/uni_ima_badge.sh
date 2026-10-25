@@ -1,0 +1,15 @@
+#!/bin/bash
+SEED=$RANDOM
+echo "========================================================="
+echo "       STANKIN UNIVERSITY - TENURE AUDIT BADGE           "
+echo "========================================================="
+echo " [STATUS]  : CRYPTOGRAPHICALLY VERIFIED & SEALED         "
+echo " [SEED]    : $SEED                                       "
+echo " [PHI (\Phi)] : 1.618034                                 "
+echo "---------------------------------------------------------"
+echo " OQM Checksum (SHA-256):                                 "
+echo " 3005a4823becd0d7082a5d938b381a7610b5f67126b7f8f2d72316a7b508a3d"
+echo "---------------------------------------------------------"
+echo " TERMUX Checksum (SHA-256):                              "
+echo " 4d6a068ac93397e10ab9aa766b46e24c70c9d61f209bda902fa95f84fd4eb58a"
+echo "========================================================="

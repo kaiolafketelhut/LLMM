@@ -1,0 +1,16 @@
+name: Bell
+on: [push]
+jobs:
+  bell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install qiskit qiskit-aer
+      - run: python quantum_test.py

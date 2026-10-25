@@ -1,0 +1,26 @@
+#!/data/data/com.termux/files/usr/bin/env bash
+# OQM RANDOM PRO - BIN v1
+
+pkill -9 python 2>/dev/null; pkill autossh 2>/dev/null; sleep 1
+mkdir -p ~/tmp ~/oeneye
+
+PORT=$(python3 -c "
+import socket
+for p in range(5000, 5020):
+    try:
+        s=socket.socket(); s.bind(('0.0.0.0',p)); s.close(); print(p); break
+    except: pass
+")
+[ -z "$PORT" ] && PORT=5000
+
+echo ">>> OQM RANDOM BIN ACTIVE :: PORT $PORT"
+echo $PORT > ~/tmp/oqm_port.txt
+
+cd ~/oeneye
+PORT=$PORT nohup python app.py > app.log 2>&1 &
+sleep 2
+tail -n 20 app.log
+
+echo ""
+echo ">>> Tunnel: https://oeneye.serveusercontent.com -> localhost:$PORT"
+autossh -M 0 -i ~/.ssh/id_ed25519 -o ServerAliveInterval=60 -R oeneye:80:localhost:$PORT serveo.net

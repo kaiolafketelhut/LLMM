@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+export OQM_PRIMARY="\033[1;36m"
+export OQM_SUCCESS="\033[1;32m"
+export OQM_WARN="\033[1;33m"
+export OQM_RESET="\033[0m"

@@ -1,0 +1,17 @@
+bulk_portfolios/
+__pycache__/
+*.log
+*.bin
+*.tar.gz
+*.sh
+isbn_repo/
+oeneye_manifest.json
+app.py
+package_extras.sh
+*.pid
+*.img
+*.bin
+*.vhd
+*.pid
+*.img
+*.iso
