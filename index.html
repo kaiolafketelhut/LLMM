@@ -140,8 +140,17 @@ document.getElementById("nx-key").onclick=function(){
 (function(){
 var o=document.getElementById("bx-out"),i=document.getElementById("bx-in");
 function p(t){o.textContent+=t+"\n";o.scrollTop=o.scrollHeight;}
+var BLYR=[];
+fetch("BLUH.bly").then(function(r){return r.text();}).then(function(t){
+ t.split("\n").forEach(function(l){
+  l=l.trim();if(!l||l.charAt(0)==="#")return;
+  var b=l.indexOf("|"),e=l.indexOf("=");
+  if(b>0&&(e<0||e>b))BLYR.push([l.slice(0,b).trim().toLowerCase(),l.slice(b+1)]);
+ });
+}).catch(function(){});
 function stub(q){
  q=q.toLowerCase();
+ for(var m=0;m<BLYR.length;m++){if(q.indexOf(BLYR[m][0])>=0)return "[STUB] "+BLYR[m][1];}
  var R=[
   [/hello|\bhi\b|hey/,"GREETINGS, OPERATOR. ALL SYSTEMS NOMINAL."],
   [/how are you/,"RUNNING WITHIN PARAMETERS. NO FAULTS LOGGED."],
