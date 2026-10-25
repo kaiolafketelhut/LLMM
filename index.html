@@ -115,6 +115,42 @@ m.textContent='Booting... tap the black box to type';
 </script>
 
 
+<div id="nasa-box" style="border:1px solid #000;padding:12px;margin:16px 0;background:#f9f9f9">
+<b>[NASA BOX] by book - astronomy picture of the day</b>
+<div style="margin-top:8px;border:1px solid #1c2430;border-radius:10px;overflow:hidden;background:linear-gradient(145deg,#050607,#0d1014 55%,#030304);box-shadow:0 8px 24px rgba(0,0,0,.7)">
+<div style="font:11px monospace;letter-spacing:2px;color:#3dff9a;padding:5px 10px;background:linear-gradient(#10151b,#07090c);border-bottom:1px solid #1c2430">&#9679; &#9679; &#9679; NASA APOD UPLINK</div>
+<div id="nx-out" style="padding:10px;font:12px monospace;color:#3dff9a;min-height:80px">STANDBY</div>
+<div style="display:flex;border-top:1px solid #1c2430">
+<button id="nx-go" style="flex:1;background:#10151b;color:#3dff9a;border:0;font:12px monospace;padding:8px">LOAD TODAY</button>
+<button id="nx-key" style="background:#10151b;color:#3dff9a;border:0;border-left:1px solid #1c2430;font:12px monospace;padding:8px 12px">KEY</button>
+</div></div>
+<div style="font-size:11px;margin-top:6px">Default key is DEMO_KEY (low limits). KEY stores your NASA key only in this browser.</div>
+<script>
+(function(){
+var o=document.getElementById("nx-out");
+function esc(t){return String(t).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+async function load(){
+ var k="DEMO_KEY";try{k=localStorage.getItem("nasakey")||k;}catch(e){}
+ o.textContent="LOADING...";
+ try{
+  var r=await fetch("https://api.nasa.gov/planetary/apod?api_key="+encodeURIComponent(k));
+  var d=await r.json();
+  if(!d.title){o.textContent="ERR "+((d.error&&d.error.message)||r.status);return;}
+  var m=d.media_type==="image"?'<img src="'+esc(d.url)+'" style="max-width:100%;border-radius:6px">':'<a style="color:#3dff9a" href="'+esc(d.url)+'">open media</a>';
+  o.innerHTML="<b>"+esc(d.title)+"</b> ("+esc(d.date)+")<br><br>"+m+"<br><br>"+esc(d.explanation);
+ }catch(e){o.textContent="ERR "+e;}
+}
+document.getElementById("nx-go").onclick=load;
+document.getElementById("nx-key").onclick=function(){
+ var k=prompt("NASA API key (empty = reset to DEMO_KEY):");
+ if(k===null)return;
+ try{if(k.trim()){localStorage.setItem("nasakey",k.trim());}else{localStorage.removeItem("nasakey");}}catch(e){}
+ load();
+};
+})();
+</script>
+</div>
+
 <div id="bluh-box" style="border:1px solid #000;padding:12px;margin:16px 0;background:#f9f9f9">
 <b>[BLUH BOX] by book - obsidian mainframe LLM</b>
 <div style="margin-top:8px;border:1px solid #1c2430;border-radius:10px;overflow:hidden;background:linear-gradient(145deg,#050607,#0d1014 55%,#030304);box-shadow:0 8px 24px rgba(0,0,0,.7),inset 0 0 40px rgba(0,255,120,.06)">
@@ -142,7 +178,7 @@ async function llm(q,k){
   headers:{"content-type":"application/json","x-api-key":k,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
   body:JSON.stringify({model:"claude-sonnet-5-5",max_tokens:400,system:"You are BLUH, an obsidian mainframe console. Answer briefly in plain text.",messages:[{role:"user",content:q}]})});
  var d=await r.json();
- return (d.content&&d.content[0]&&d.content[0].text)||"ERR";
+ return (d.content&&d.content[0]&&d.content[0].text)||("ERR "+((d.error&&d.error.message)||"no answer"));
 }
 async function send(){
  var q=i.value.trim();if(!q)return;i.value="";p("> "+q);
@@ -154,7 +190,7 @@ document.getElementById("bx-go").onclick=send;
 i.addEventListener("keydown",function(e){if(e.key==="Enter")send();});
 document.getElementById("bx-key").onclick=function(){
  var k=prompt("API key (stored only in this browser):");
- if(k){try{localStorage.setItem("bluhkey",k);p("[KEY SET]");}catch(e){p("[KEY FAILED]");}}
+ if(k===null)return;if(!k.trim()){try{localStorage.removeItem("bluhkey");}catch(e){}p("[KEY CLEARED - STUB MODE]");return;}if(k.indexOf("sk-ant-")!==0){p("[REJECTED: needs an Anthropic key starting sk-ant-]");return;}try{localStorage.setItem("bluhkey",k.trim());p("[KEY SET]");}catch(e){p("[KEY FAILED]");}
 };
 p("OBSIDIAN MAINFRAME :: BLUH ONLINE");
 })();
