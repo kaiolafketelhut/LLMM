@@ -1,0 +1,9 @@
+# BLUH.bly - rules for the BLUH stub
+# format: KEY=value  or  keyword|reply
+GRID=16,16
+BLOCK=16,16
+MODE=STUB
+hello|GREETINGS, OPERATOR.
+who|I AM BLUH, AN OBSIDIAN MAINFRAME.
+status|ALL SYSTEMS NOMINAL.
+help|TRY: hello, who, status
