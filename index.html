@@ -169,9 +169,18 @@ var o=document.getElementById("bx-out"),i=document.getElementById("bx-in");
 function p(t){o.textContent+=t+"\n";o.scrollTop=o.scrollHeight;}
 function stub(q){
  q=q.toLowerCase();
- if(/hello|hi\b/.test(q))return "[STUB] GREETINGS, OPERATOR.";
- if(/who/.test(q))return "[STUB] I AM BLUH, AN OBSIDIAN MAINFRAME.";
- return "[STUB] NO UPLINK. QUERY LOGGED: "+q;
+ var R=[
+  [/hello|\bhi\b|hey/,"GREETINGS, OPERATOR. ALL SYSTEMS NOMINAL."],
+  [/how are you/,"RUNNING WITHIN PARAMETERS. NO FAULTS LOGGED."],
+  [/who|your name/,"I AM BLUH, AN OBSIDIAN MAINFRAME. 128 MB OF BLACK GLASS."],
+  [/time|date/,"SYSTEM CLOCK: "+new Date().toISOString().replace("T"," ").slice(0,19)+" UTC"],
+  [/nasa|space|star|planet/,"SEE THE NASA BOX ABOVE. APOD UPLINK AVAILABLE."],
+  [/status/,"CPU OK | MEM 128MB | UPLINK: OFFLINE STUB"],
+  [/joke/,"THERE ARE 10 TYPES OF OPERATORS: THOSE WHO READ BINARY AND THOSE WHO DO NOT."],
+  [/help|commands/,"TRY: hello, who, time, status, nasa, joke"]
+ ];
+ for(var n=0;n<R.length;n++){if(R[n][0].test(q))return "[STUB] "+R[n][1];}
+ return "[STUB] NO MATCH IN OFFLINE TABLE. QUERY LOGGED: "+q+" | TYPE help";
 }
 async function llm(q,k){
  var r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
