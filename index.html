@@ -115,6 +115,52 @@ m.textContent='Booting... tap the black box to type';
 </script>
 
 
+<div id="bluh-box" style="border:1px solid #000;padding:12px;margin:16px 0;background:#f9f9f9">
+<b>[BLUH BOX] by book - obsidian mainframe LLM</b>
+<div style="margin-top:8px;border:1px solid #1c2430;border-radius:10px;overflow:hidden;background:linear-gradient(145deg,#050607,#0d1014 55%,#030304);box-shadow:0 8px 24px rgba(0,0,0,.7),inset 0 0 40px rgba(0,255,120,.06)">
+<div style="font:11px monospace;letter-spacing:2px;color:#3dff9a;padding:5px 10px;background:linear-gradient(#10151b,#07090c);border-bottom:1px solid #1c2430;text-shadow:0 0 6px #00ff80">&#9679; &#9679; &#9679; OBSIDIAN MAINFRAME :: BLUH</div>
+<pre id="bx-out" style="margin:0;padding:10px;height:180px;overflow:auto;white-space:pre-wrap;font:12px monospace;color:#3dff9a;text-shadow:0 0 4px rgba(0,255,120,.6);background:repeating-linear-gradient(0deg,rgba(0,0,0,.25) 0,rgba(0,0,0,.25) 1px,transparent 1px,transparent 3px)"></pre>
+<div style="display:flex;border-top:1px solid #1c2430">
+<span style="color:#3dff9a;font:13px monospace;padding:8px 6px 8px 10px">&gt;</span>
+<input id="bx-in" autocomplete="off" placeholder="bluh ..." style="flex:1;min-width:0;background:transparent;border:0;outline:0;color:#3dff9a;font:13px monospace">
+<button id="bx-go" style="background:#10151b;color:#3dff9a;border:0;border-left:1px solid #1c2430;font:12px monospace;padding:0 12px">SEND</button>
+<button id="bx-key" style="background:#10151b;color:#3dff9a;border:0;border-left:1px solid #1c2430;font:12px monospace;padding:0 12px">KEY</button>
+</div></div>
+<div style="font-size:11px;margin-top:6px">Without a key the offline stub answers. KEY stores your API key only in this browser (localStorage), never in the repo.</div>
+<script>
+(function(){
+var o=document.getElementById("bx-out"),i=document.getElementById("bx-in");
+function p(t){o.textContent+=t+"\n";o.scrollTop=o.scrollHeight;}
+function stub(q){
+ q=q.toLowerCase();
+ if(/hello|hi\b/.test(q))return "[STUB] GREETINGS, OPERATOR.";
+ if(/who/.test(q))return "[STUB] I AM BLUH, AN OBSIDIAN MAINFRAME.";
+ return "[STUB] NO UPLINK. QUERY LOGGED: "+q;
+}
+async function llm(q,k){
+ var r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
+  headers:{"content-type":"application/json","x-api-key":k,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+  body:JSON.stringify({model:"claude-sonnet-5-5",max_tokens:400,system:"You are BLUH, an obsidian mainframe console. Answer briefly in plain text.",messages:[{role:"user",content:q}]})});
+ var d=await r.json();
+ return (d.content&&d.content[0]&&d.content[0].text)||"ERR";
+}
+async function send(){
+ var q=i.value.trim();if(!q)return;i.value="";p("> "+q);
+ var k=null;try{k=localStorage.getItem("bluhkey");}catch(e){}
+ if(!k){p(stub(q));return;}
+ try{p("[LLM] "+await llm(q,k));}catch(e){p(stub(q));}
+}
+document.getElementById("bx-go").onclick=send;
+i.addEventListener("keydown",function(e){if(e.key==="Enter")send();});
+document.getElementById("bx-key").onclick=function(){
+ var k=prompt("API key (stored only in this browser):");
+ if(k){try{localStorage.setItem("bluhkey",k);p("[KEY SET]");}catch(e){p("[KEY FAILED]");}}
+};
+p("OBSIDIAN MAINFRAME :: BLUH ONLINE");
+})();
+</script>
+</div>
+
 <div class="box">
 <b>[OLD MIRROR COMPLETE → NEW] – Floppy Max 2.88MB + Live Catalog</b><br>
 Old: <a href="https://colegio-san-caio.github.io/LLMM/">colegio-san-caio.github.io/LLMM/</a> + <a href="https://colegio-san-caio.github.io/demo-repository/">demo-repository</a><br>
