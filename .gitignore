@@ -4,3 +4,8 @@ TERMUXgTREMUX/
 __pycache__/
 *.tmp
 
+bluh_cob
+html_cob
+bluh
+*.log
+*.pid
