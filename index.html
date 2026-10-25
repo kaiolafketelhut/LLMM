@@ -27,6 +27,34 @@ code{background:#eee;padding:2px 5px;font-family:monospace;font-size:13px;word-b
 canvas:focus{outline:2px solid #00ff00}
 .linux-terminal-box{cursor:text}
 </style>
+
+<style id="obsidian-css">
+.linux-terminal-box{
+  position:relative;
+  background:linear-gradient(145deg,#050607 0%,#0d1014 55%,#030304 100%)!important;
+  border:1px solid #1c2430!important;
+  border-radius:10px!important;
+  box-shadow:0 0 0 1px #000,0 10px 30px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 40px rgba(0,255,120,.05)!important;
+  padding-top:30px!important;
+  overflow:hidden;
+}
+.linux-terminal-box::before{
+  content:"\25CF  \25CF  \25CF   OBSIDIAN MAINFRAME :: BLUH";
+  position:absolute;top:0;left:0;right:0;height:24px;line-height:24px;
+  padding-left:12px;font:11px monospace;letter-spacing:2px;
+  color:#3dff9a;background:linear-gradient(#10151b,#07090c);
+  border-bottom:1px solid #1c2430;z-index:3;
+  text-shadow:0 0 6px #00ff80;
+  animation:ledblink 2.4s steps(2,start) infinite;
+}
+.linux-terminal-box::after{
+  content:"";position:absolute;inset:24px 0 0 0;pointer-events:none;z-index:2;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0,rgba(0,0,0,.28) 1px,transparent 1px,transparent 3px),
+  radial-gradient(ellipse at 30% 0%,rgba(255,255,255,.07),transparent 60%);
+}
+.linux-terminal-box canvas{filter:drop-shadow(0 0 3px rgba(0,255,120,.55))}
+@keyframes ledblink{0%{opacity:1}100%{opacity:.82}}
+</style>
 </head><body>
 
 <!-- [GOOGLE SEARCH BAR BOX] by book -->
