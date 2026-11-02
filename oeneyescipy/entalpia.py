@@ -199,3 +199,17 @@ def log_system_checksum(name="USA_NODE_ALPHA", payload=""):
     with open("security_audit.log", "a") as f:
         f.write(f"NODE: {name} | DATA: {payload}\n")
 
+def dynamic_line_logger(current_logic="ZZ"):
+    """
+    Holds a configurable logic variable that can be updated dynamically 
+    before appending the final string payload to the log file.
+    """
+    # Create the mutable string payload template based on your active mode
+    payload_string = f"ACTIVE_LOGIC_STATE: {current_logic}"
+    
+    # Just add the line to the bottom of the audit log
+    with open("security_audit.log", "a") as f:
+        f.write(f"NODE: CONFIG_CONTROLLER | DATA: {payload_string}\n")
+    
+    print(f"Appended configuration line to log: {payload_string}")
+
