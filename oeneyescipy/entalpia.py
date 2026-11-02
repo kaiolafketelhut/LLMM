@@ -59,3 +59,47 @@ def calculate_oximeter_auhx(absorbance_660, absorbance_940, temp_f, baseline_fac
         "calculated_enthalpy": float(total_enthalpy)
     }
 
+import serial
+import time
+
+def stream_oximeter_auhx_live(port='/dev/ttyUSB0', baudrate=115200, temp_f=77.0):
+    """
+    Connects to a serial hardware interface stream to process 
+    live pulse oximeter inputs for automated AuHx calculation updates.
+    
+    Expected serial text input format from micro-controller:
+    "RED=XXXXX,IR=YYYYY" or "XXXXX,YYYYY"
+    """
+    print(f"Connecting to hardware interface on {port} at {baudrate} baud...")
+    try:
+        ser = serial.Serial(port, baudrate, timeout=1)
+        time.sleep(2) # Give connection a moment to initialize safely
+        print("Stream connection active. Press Ctrl+C to terminate tracking loop.\n")
+        
+        while True:
+            if ser.in_waiting > 0:
+                line = ser.readline().decode('utf-8', errors='ignore').strip()
+                
+                # Simple parser for raw comma-separated tracking outputs (e.g. "45210,39850")
+                try:
+                    if ',' in line:
+                        parts = line.split(',')
+                        # Clean out text prefixes if present
+                        red_val = float(''.join(c for c in parts[0] if c.isdigit() or c=='.'))
+                        ir_val = float(''.join(c for c in parts[1] if c.isdigit() or c=='.'))
+                        
+                        # Process live values via your core oximeter ratio module
+                        stats = calculate_oximeter_auhx(red_val, ir_val, temp_f)
+                        
+                        print(f"[LIVE] Red-Counts: {red_val:<6} | IR-Counts: {ir_val:<6} | Enthalpy: {stats['calculated_enthalpy']:.2f} J/mol")
+                except ValueError:
+                    # Ignore corrupted serial noise packets
+                    continue
+                    
+            time.sleep(0.1) # Prevents CPU core spiking inside Termux loop
+            
+    except KeyboardInterrupt:
+        print("\nLive oximeter serial stream tracking safely terminated.")
+    except Exception as e:
+        print(f"\nHardware Connection Error: {e}")
+
