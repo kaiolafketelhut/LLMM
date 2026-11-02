@@ -165,3 +165,30 @@ def generate_system_checksum(instance_name="USA_NODE_ALPHA"):
     except Exception as e:
         return {"verification_status": f"FAILED: {e}", "sha256_checksum": None}
 
+from datetime import datetime
+
+def log_system_checksum(instance_name="USA_NODE_ALPHA"):
+    """
+    Generates a secure verification hash and appends it to an 
+    immutable, timestamped audit log file within the workspace.
+    """
+    # 1. Generate the verification signature
+    report = generate_system_checksum(instance_name)
+    if not report["sha256_checksum"]:
+        print("Log operation aborted: Checksum failure.")
+        return None
+
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    log_line = f"[{timestamp}] NODE: {report['node_identifier']} | STATUS: {report['verification_status']} | SIGNATURE: {report['sha256_checksum']}\n"
+    
+    # 2. Write safely to a local tracking document
+    log_filename = "security_audit.log"
+    try:
+        with open(log_filename, "a") as log_file:
+            log_file.write(log_line)
+        print(f"Success: Cryptographic record appended to {log_filename}")
+        return report
+    except Exception as e:
+        print(f"Logging file exception encountered: {e}")
+        return None
+
