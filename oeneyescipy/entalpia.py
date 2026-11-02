@@ -103,3 +103,34 @@ def stream_oximeter_auhx_live(port='/dev/ttyUSB0', baudrate=115200, temp_f=77.0)
     except Exception as e:
         print(f"\nHardware Connection Error: {e}")
 
+import urllib.request
+import json
+
+def fetch_mosfet_qexchange_data(device_ip="192.168.4.1", temp_f=77.0):
+    """
+    Fetches raw dual-wavelength data via Wi-Fi from an external microcontroller 
+    managing high-speed MOSFET switching gates.
+    """
+    url = f"http://{device_ip}/data"
+    print(f"Polling MOSFET Exchange controller node at {url}...")
+    
+    try:
+        # Request stream state from network node
+        response = urllib.request.urlopen(url, timeout=3)
+        data = json.loads(response.read().decode('utf-8'))
+        
+        # Expecting JSON schema keys matching raw sensor photo-diode counts
+        red_val = float(data.get("red", 0))
+        ir_val = float(data.get("ir", 0))
+        mosfet_state = data.get("mosfet_gate", "UNKNOWN")
+        
+        # Process structural state metrics via core calculation routine
+        stats = calculate_oximeter_auhx(red_val, ir_val, temp_f)
+        stats["mosfet_gate_status"] = mosfet_state
+        
+        return stats
+        
+    except Exception as e:
+        print(f"Network Connection Failed: {e}")
+        return None
+
