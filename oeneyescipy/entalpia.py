@@ -1,22 +1,25 @@
 import numpy as np
-import scipy.integrate as integrate
 
-class EnthalpyCalculator:
-    def __init__(self, cp_coefficients):
-        """
-        cp_coefficients: list or array of Shomate/NASA equation coefficients 
-        e.g., Cp = A + B*t + C*t^2 + D*t^3 + E/t^2
-        """
-        self.coeffs = cp_coefficients
+def fahrenheit_to_kelvin(f):
+    """Converts Fahrenheit temperature to Kelvin"""
+    return (f - 32) * 5/9 + 273.15
 
-    def heat_capacity(self, T):
-        """Calculate Cp at temperature T (Kelvin)"""
-        t = T / 1000.0
-        A, B, C, D, E = self.coeffs
-        return A + B*t + C*t**2 + D*t**3 + E/(t**2)
-
-    def calculate_enthalpy(self, T1, T2):
-        """Integrate Heat Capacity from T1 to T2 to find Delta H"""
-        delta_H, error = integrate.quad(self.heat_capacity, T1, T2)
-        return delta_H
+def calculate_enthalpy_wavelength(temp_f, wavelength_nm, auhx_factor=1.0):
+    """
+    Calculates a custom simulated enthalpy delta dependent on:
+    - temp_f: Temperature in Fahrenheit
+    - wavelength_nm: Wavelength in nanometers (absorption scale)
+    - auhx_factor: A scaling genetics coefficient (AuHx)
+    """
+    T = fahrenheit_to_kelvin(temp_f)
+    
+    # Energy calculation: E = h * c / lambda
+    hc = 1.986445e-16  # J * nm
+    energy_wavelength = hc / wavelength_nm
+    
+    # Mathematical integration baseline approximation
+    cp_base = 29.1  # J/(mol*K) base capacity reference
+    enthalpy = (cp_base * T) + (auhx_factor * energy_wavelength * 1e23)
+    
+    return float(enthalpy)
 
