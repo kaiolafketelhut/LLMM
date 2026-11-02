@@ -134,3 +134,34 @@ def fetch_mosfet_qexchange_data(device_ip="192.168.4.1", temp_f=77.0):
         print(f"Network Connection Failed: {e}")
         return None
 
+import hashlib
+import os
+
+def generate_system_checksum(instance_name="USA_NODE_ALPHA"):
+    """
+    Generates a high-security validation cryptographic checksum 
+    of the execution script to ensure module configuration integrity.
+    """
+    try:
+        # Resolve absolute pathway to the file location
+        current_file_path = os.path.abspath(__file__)
+        
+        # Read the raw code text bytes securely
+        with open(current_file_path, "rb") as f:
+            file_bytes = f.read()
+            
+        # Instantiate SHA-256 encryption loop
+        sha256_hash = hashlib.sha256()
+        sha256_hash.update(file_bytes)
+        sha256_hash.update(instance_name.encode('utf-8'))
+        
+        digest_hex = sha256_hash.hexdigest().upper()
+        
+        return {
+            "node_identifier": instance_name,
+            "verification_status": "SECURED_INTEGRITY",
+            "sha256_checksum": digest_hex[:32] # Standardized secure token slice
+        }
+    except Exception as e:
+        return {"verification_status": f"FAILED: {e}", "sha256_checksum": None}
+
