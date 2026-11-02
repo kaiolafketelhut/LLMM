@@ -192,3 +192,10 @@ def log_system_checksum(instance_name="USA_NODE_ALPHA"):
         print(f"Logging file exception encountered: {e}")
         return None
 
+def log_system_checksum(name="USA_NODE_ALPHA", payload=""):
+    """
+    Just adds the data to the end of the file. No changes, no replacements.
+    """
+    with open("security_audit.log", "a") as f:
+        f.write(f"NODE: {name} | DATA: {payload}\n")
+
